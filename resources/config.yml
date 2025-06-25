@@ -1,0 +1,18 @@
+
+##### Local
+# For QueryTrack.insertQueryTrackFromFolder, where the logs are stored
+# IF changed, change in docker-compose.yml as well
+Datapath: resources/Data
+
+##### Flask
+# Custom port for the app
+# IF changed, change in docker-compose.yml as well
+port:
+# Server address, not recommended to change if running with Docker
+host:
+
+##### MongoDB
+Database: myDatabase
+Collection: traces
+# MongoDB URI
+URI: mongodb://mongo:27017/

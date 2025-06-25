@@ -1,0 +1,25 @@
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"  # Optional: expose to host for dev use
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build: .
+    container_name: grafana-log-api
+    ports:
+      - "2000:2000"  # Flask app port
+    depends_on:
+      - mongo
+    volumes:
+      - ./out:/app/out
+      - ./resources:/app/resources
+
+
+volumes:
+  mongo-data:
+
