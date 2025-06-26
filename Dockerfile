@@ -13,6 +13,8 @@ RUN python3 -m pip install --no-cache-dir -r requirements.txt
 COPY src/ ./src/
 COPY resources/ ./resources/
 COPY out/ ./out/
+COPY templates/ ./src/templates/
+COPY static ./src/static/
 
 # Command to run the Flask app
 CMD ["python3", "./src/app.py"]

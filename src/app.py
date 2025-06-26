@@ -1,13 +1,13 @@
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 from QueryTracking import *
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
-    return "Connection Successful", 200
+def home():
+    return render_template("home.html")
 
 @app.route('/SubMethods/<path:method>', methods=['GET'])
 def search_byMethod(method):

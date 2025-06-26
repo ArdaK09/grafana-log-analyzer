@@ -10,7 +10,7 @@ services:
 
   api:
     build: .
-    container_name: grafana-log-api
+    container_name: grafana-log
     ports:
       - "2000:2000"  # Flask app port
     depends_on:

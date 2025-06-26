@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta charset="UTF-8">
+    <title>Log Analysis API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f9f9f9;
+        }
+        h1 { color: #333; }
+        input, button {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+        }
+        .endpoint {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Log Analysis API</h1>
+    <p>Please read the README.md before starting.</p>
+
+    <div class="endpoint">
+        <h2>/insertQueries</h2>
+        <p>Insert the Grafana logs into the resources/Data folder, then press the button below.</p>
+        <form action="/insertQueries" method="get">
+            <button type="submit">Insert Queries</button>
+        </form>
+    </div>
+
+    <h4>For the following operations, results will be produced in out/ folder in the project directory.</h4>
+
+    <div class="endpoint">
+        <h2>/SubMethods/&lt;query&gt;</h2>
+        <form id="subForm" method="get" onsubmit="return handleSubSubmit();">
+            <input type="text" id="submethodQuery" placeholder="Enter part of parent HTTP request" required>
+            <button type="submit">Get Sub Methods</button>
+        </form>
+    </div>
+
+    <div class="endpoint">
+        <h2>/RepeatingSubMethods/&lt;query&gt;</h2>
+        <form id="repeatForm" method="get" onsubmit="return handleRepeatSubmit();">
+            <input type="text" id="repeatQuery" placeholder="Enter part of parent HTTP request" required>
+            <button type="submit">Get Repeating Sub Methods</button>
+        </form>
+    </div>
+
+    <div class="endpoint">
+        <h2>/ParentMethods/&lt;method&gt;</h2>
+        <form id="parentForm" method="get" onsubmit="return handleParentSubmit();">
+            <input type="text" id="parentMethod" placeholder="Enter method name" required>
+            <button type="submit">Find Parent Methods</button>
+        </form>
+    </div>
+
+    <script>
+        function handleSubSubmit() {
+            const form = document.getElementById("subForm");
+            const query = document.getElementById("submethodQuery").value.trim();
+            form.action = "/SubMethods/" + encodeURIComponent(query);
+            return true;
+        }
+
+        function handleRepeatSubmit() {
+            const form = document.getElementById("repeatForm");
+            const query = document.getElementById("repeatQuery").value.trim();
+            form.action = "/RepeatingSubMethods/" + encodeURIComponent(query);
+            return true;
+        }
+
+        function handleParentSubmit() {
+            const form = document.getElementById("parentForm");
+            const method = document.getElementById("parentMethod").value.trim();
+            form.action = "/ParentMethods/" + encodeURIComponent(method);
+            return true;
+        }
+    </script>
+</body>
+</html>

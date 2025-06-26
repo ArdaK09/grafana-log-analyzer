@@ -12,9 +12,12 @@ Docker image contains two containers as can be seen in _docker-compose.yml_. One
 _config.yml_.
 2. Run the program with `docker-compose up --build` in the terminal.
 3. Go to `localhost:2000/` if you haven't changed the `host` or `port` fields in _config.yml_ to see if connection
-successful. If it is, you'll receive <mark>"Connection Successful"</mark> and 200.
+successful. If it is, you'll receive <mark>"Connection Successful"</mark> and a 200 status code.
     - If you have changed them, you probably know where to go.
-4. Now, you can start by inserting and processing your files using the following functions.
+4. Navigate to `http://localhost:[your port]`
+   - If you have not changed the port number, the URI is http://localhost:2000
+   
+5. Now, you can start by inserting and processing your files using the following functions.
 
 
 ## Supported Functions
@@ -32,17 +35,17 @@ successful. If it is, you'll receive <mark>"Connection Successful"</mark> and 20
               }, ... <br>
          ] <br>
      }
-                                        
-> The functions after this point produce their output in `/out/` folder if called with `-v "$(pwd)/out:/app/out`.
-> Also, their arguments are not case-sensitive, and they support partial matching, i.e.,
-> entering a part of the request will also work. <br>
 > Example: "POST /DCE-CommerceBackend/user/inquireProductsByAccountType" can be passed as
 >  "inquireproductsbyaccounttype" or "inquireProducts".
 
 - `/SubMethods/<path: Parent HTTP Request>`, methods=[GET]
     - Takes an argument and searches the database documents for a match in the *query* field. 
     - In the case there are multiple matching documents, selects the first one. 
-    - Output: Data consisting of all the matching *called methods* fields and *parent HTTP request* details.
+    - Output: Data consisting of all the matching *called methods* fields and *pa
+                                        
+> The functions after this point produce their output in `/out/` folder.
+> Also, their arguments are not case-sensitive, and they support partial matching, i.e.,
+> entering a part of the request will also work. <br>rent HTTP request* details.
 
 
 - `/RepeatingSubMethods/<path: Parent HTTP Request>`, methods=[GET]
