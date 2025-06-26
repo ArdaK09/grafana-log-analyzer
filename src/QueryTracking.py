@@ -263,7 +263,7 @@ def searchForParentMethods(methodname: str) -> list:
     for doc in db_access.collection.find():
         for element in doc.get("called_methods", []):
             curQuery = doc.get("query")
-            if element['name'].casefold() in casefoldMethod and (curQuery not in methods):
+            if casefoldMethod in element['name'].casefold()and (curQuery not in methods):
                 methods.append(curQuery)
 
     if len(methods) != 0:
