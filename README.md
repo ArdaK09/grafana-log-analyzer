@@ -55,6 +55,12 @@ successful. If it is, you'll receive <mark>"Connection Successful"</mark> and a 
   - Does not return the result! Only `{"processed": number of documents}`. Results are produced in `out/`.
 
 
+- `/RepeatingSubMethods`, methods=[GET]
+  - Serves the same purpose as the above path except for the need for a search parameter.
+  - Analyzes ever file in `resources/Data/` the same way the above function does and produces their results in `out/`
+  - Does not return the result! Only `{"processed": number of documents}`.
+
+
 - `/ParentMethods/<path: method name>`, methods=[GET]
   - Finds all queries (parent HTTP requests) that invoked the specified submethod and 
     provides them in a list.

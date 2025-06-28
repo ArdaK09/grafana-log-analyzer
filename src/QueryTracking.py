@@ -272,6 +272,74 @@ def searchForParentMethods(methodname: str) -> list:
     return methods
 
 
+def RepeatingMethodsAllFiles():
+    """
+    Works exactly in the same fashion as _searchByMethodNameRepeating()_ with the only difference being this function
+    analyzes every file (Grafana log) in the path stated in config.yml.
+
+    Returns: Dictionary indicating how many total files have been processed.
+    """
+
+    # Extracting relevant info
+    doc_found = 0
+    for doc in db_access.collection.find():
+        total_time = 0
+        doc_result = {}
+
+        # Extract fields form DB and store in relevant var.s
+        parent_details = doc.get('details')
+        # Add the 'name' attribute
+        parent_details.update({'name': doc['query']})
+        data = doc.get('called_methods')  # List of stats
+
+        # parent_method_stats format: {'submethod_name1':[[times], db.statement], 'submethod_name2': ... }
+        parent_method_stats = defaultdict(lambda: [[], ""])
+
+        for stat in data:
+            # stats are stored in the database as follows:
+            # {'name':name, 'time (ms)':time, 'url':_url_, 'db.statement': dbstatmnt}
+            if 'url' in stat.keys():
+                # HTTP request, need to avoid combining different "GET"s etc.
+                parent_method_stats[stat['name'] + " " + stat['url']][0].append(stat['time (ms)'])
+            else:
+                if 'db.statement' in stat.keys():
+                    # DB request, need to set the second element
+                    parent_method_stats[stat['name']][1] = stat['db.statement']
+
+                parent_method_stats[stat['name']][0].append(stat['time (ms)'])
+
+        for submethod, values in parent_method_stats.items():
+            # Forming the output
+            entry = {
+                "call count": len(values[0]),
+                "total time (ms)": round(sum(values[0]), 3),
+                "average time (ms)": round(sum(values[0]) / len(values[0]), 3),
+                "min time (ms)": round(min(values[0]), 3),
+                "max time (ms)": round(max(values[0]), 3)
+            }
+            # Conditionally add 'db.statement'
+            if values[1] != "":
+                # noinspection PyTypeChecker
+                entry["db.statement"] = values[1]
+            total_time += sum(values[0])
+            doc_result[submethod] = entry
+
+        if len(doc_result) != 0:
+            # Ensuring Sorted Response
+            sorted_doc_result = dict(
+                sorted(doc_result.items(), key=lambda item: item[1]['total time (ms)'], reverse=True))
+            parent_details['total time (ms)'] = round(total_time, 3)
+            result = [parent_details, sorted_doc_result]
+            doc_found += 1
+
+            # Writing to output file.
+            details = "Analysis_Result_" + "_" + str(datetime.datetime.now().strftime("%x")) + "_" + str(
+                doc_found)
+            produce_output(details, result)
+
+    return {'processed': doc_found}
+
+
 # Helper for output files
 def produce_output(details: str, content):
     details = details.replace("/", "-")

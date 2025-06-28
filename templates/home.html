@@ -4,7 +4,7 @@
 <head>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <meta charset="UTF-8">
-    <title>Log Analysis API</title>
+    <title>Log Analysis Tool</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,7 +24,7 @@
     </style>
 </head>
 <body>
-    <h1>Welcome to the Log Analysis API</h1>
+    <h1>Welcome to the Log Analysis Tool Web Interface</h1>
     <p>Please read the README.md before starting.</p>
 
     <div class="endpoint">
@@ -42,6 +42,14 @@
         <form id="subForm" method="get" onsubmit="return handleSubSubmit();">
             <input type="text" id="submethodQuery" placeholder="Enter part of parent HTTP request" required>
             <button type="submit">Get Sub Methods</button>
+        </form>
+    </div>
+
+    <div class="endpoint">
+        <h2>/RepeatingSubMethods</h2>
+        <p>Works similarly to the function below, however analyzes every file in resources/Data.</p>
+        <form action="/RepeatingSubMethods" method="get">
+            <button type="submit">Analyze Logs</button>
         </form>
     </div>
 

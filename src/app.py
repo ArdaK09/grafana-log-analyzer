@@ -32,6 +32,11 @@ def repeated_methods(method):
     result = searchByMethodNameRepeating(method)
     return result
 
+@app.route('/RepeatingSubMethods', methods=["GET"])
+def repeated_methods_all():
+    result = RepeatingMethodsAllFiles()
+    return result
+
 
 if __name__ == "__main__":
     host = db_access.HOST or "0.0.0.0"  # default values
