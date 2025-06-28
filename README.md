@@ -35,19 +35,18 @@ successful. If it is, you'll receive <mark>"Connection Successful"</mark> and a 
               }, ... <br>
          ] <br>
      }
-> Example: "POST /DCE-CommerceBackend/user/inquireProductsByAccountType" can be passed as
->  "inquireproductsbyaccounttype" or "inquireProducts".
+
 
 - `/SubMethods/<path: Parent HTTP Request>`, methods=[GET]
     - Takes an argument and searches the database documents for a match in the *query* field. 
     - In the case there are multiple matching documents, selects the first one. 
-    - Output: Data consisting of all the matching *called methods* fields and *pa
+    - Output: Data consisting of all the matching *called methods* fields and *parent HTTP request* details.
                                         
 > The functions after this point produce their output in `/out/` folder.
 > Also, their arguments are not case-sensitive, and they support partial matching, i.e.,
-> entering a part of the request will also work. <br>rent HTTP request* details.
-
-
+> entering a part of the request will also work. <br>
+> Example: "POST /DCE-CommerceBackend/user/inquireProductsByAccountType" can be passed as
+>  "inquireproductsbyaccounttype" or "inquireProducts".
 - `/RepeatingSubMethods/<path: Parent HTTP Request>`, methods=[GET]
   - Works similarly to _SubMethods_ with the first element of the output being comprehensive information
   regarding the parent HTTP call, however **gives more detailed information about the calls** in descending 
